@@ -5,6 +5,32 @@ from typing import Optional
 from .converter_interface import ConverterInterface
 
 class FFmpegConverter(ConverterInterface):
+    video_formats: set = {
+        'mp4', 
+        'avi', 
+        'mov', 
+        'mkv', 
+        'webm', 
+        'flv', 
+        'wmv', 
+        'mpg', 
+        'mpeg', 
+        'm4v', 
+        'gif'
+      }
+    audio_formats: set = {
+        'mp3', 
+        'wav', 
+        'aac', 
+        'flac', 
+        'ogg', 
+        'wma', 
+        'm4a', 
+        'opus', 
+        'alac'
+      }
+    supported_formats: set = video_formats | audio_formats
+
     def __init__(self, input_file: str, output_dir: str, input_type: str, output_type: str):
         """
         Initialize FFmpeg converter.
@@ -24,19 +50,13 @@ class FFmpegConverter(ConverterInterface):
         Returns:
             True if conversion is possible, False otherwise
         """
-        # Define format categories
-        video_formats = ['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mpg', 'mpeg', 'm4v', 'gif']
-        audio_formats = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a', 'opus', 'alac']
-        
-        all_supported = video_formats + audio_formats
-        
         # Check if formats are supported
-        if self.input_type not in all_supported or self.output_type not in all_supported:
+        if self.input_type not in self.supported_formats or self.output_type not in self.supported_formats:
             return False
         
         # Determine input and output categories
-        input_is_audio = self.input_type in audio_formats
-        output_is_video = self.output_type in video_formats
+        input_is_audio = self.input_type in self.audio_formats
+        output_is_video = self.output_type in self.video_formats
         
         # Invalid: Cannot convert audio-only to video format
         # (would need video content, not just audio)

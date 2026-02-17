@@ -2,6 +2,8 @@ import os
 from typing import Optional
 
 class ConverterInterface:
+    supported_formats: set = set()  # To be defined by subclasses with supported formats
+
     def __init__(self, input_file: str, output_dir: str, input_type: str, output_type: str):
         """
         Initialize converter interface.

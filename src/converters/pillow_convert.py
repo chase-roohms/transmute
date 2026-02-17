@@ -5,6 +5,21 @@ from PIL import Image
 from .converter_interface import ConverterInterface
 
 class PillowConverter(ConverterInterface):
+    supported_formats = {
+        'jpg', 
+        'jpeg', 
+        'png', ''
+        'gif', 
+        'bmp', 
+        'tiff', 
+        'tif',
+        'webp', 
+        'ico', 
+        'ppm', 
+        'pgm', 
+        'pbm', 
+        'pcx'
+    }
     def __init__(self, input_file: str, output_dir: str, input_type: str, output_type: str):
         """
         Initialize Pillow converter.
@@ -24,17 +39,11 @@ class PillowConverter(ConverterInterface):
         Returns:
             True if conversion is possible, False otherwise
         """
-        # Define supported image formats
-        supported_formats = [
-            'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'tif',
-            'webp', 'ico', 'ppm', 'pgm', 'pbm', 'pcx'
-        ]
-        
         input_fmt = self.input_type.lower()
         output_fmt = self.output_type.lower()
         
         # Check if formats are supported
-        if input_fmt not in supported_formats or output_fmt not in supported_formats:
+        if input_fmt not in self.supported_formats or output_fmt not in self.supported_formats:
             return False
         
         # All supported image format conversions are valid with Pillow
