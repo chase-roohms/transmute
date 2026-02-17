@@ -110,7 +110,7 @@ class FFmpegConverter(ConverterInterface):
                 text=True,
                 check=True
             )
-            return output_file
+            return [output_file]
             
         except subprocess.CalledProcessError as e:
             error_msg = f"FFmpeg conversion failed: {e.stderr}"
