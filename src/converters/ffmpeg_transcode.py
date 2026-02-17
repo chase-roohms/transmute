@@ -2,9 +2,9 @@ import subprocess
 import os
 from pathlib import Path
 from typing import Optional
+from .converter_interface import ConverterInterface
 
-
-class FFmpegTranscoder:
+class FFmpegConverter(ConverterInterface):
     def __init__(self, input_file: str, output_dir: str, input_type: str, output_type: str):
         """
         Initialize FFmpeg converter.
@@ -15,20 +15,14 @@ class FFmpegTranscoder:
             input_type: Input file format (e.g., 'mp4', 'avi', 'mp3', 'wav')
             output_type: Output file format (e.g., 'mp4', 'avi', 'mp3', 'wav')
         """
-        self.input_file = input_file
-        self.output_dir = output_dir
-        self.input_type = input_type.lstrip('.')
-        self.output_type = output_type.lstrip('.')
-        
-        # Create output directory if it doesn't exist
-        os.makedirs(self.output_dir, exist_ok=True)
+        super().__init__(input_file, output_dir, input_type, output_type)
     
-    def can_transcode(self) -> bool:
+    def __can_convert(self) -> bool:
         """
-        Check if the input file can be transcoded to the output format.
+        Check if the input file can be converted to the output format.
         
         Returns:
-            True if transcoding is possible, False otherwise
+            True if conversion is possible, False otherwise
         """
         # Define format categories
         video_formats = ['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mpg', 'mpeg', 'm4v']
@@ -50,14 +44,14 @@ class FFmpegTranscoder:
             return False
         
         # All other conversions are valid:
-        # - Video to Video (transcode)
+        # - Video to Video (convert)
         # - Video to Audio (extract audio)
-        # - Audio to Audio (transcode)
+        # - Audio to Audio (convert)
         return True
     
-    def transcode(self, overwrite: bool = True, quality: Optional[str] = None) -> str:
+    def convert(self, overwrite: bool = True, quality: Optional[str] = None) -> str:
         """
-        Transcode the input file to the output format using FFmpeg.
+        Convert the input file to the output format using FFmpeg.
         
         Args:
             overwrite: Whether to overwrite existing output file (default: True)
@@ -72,7 +66,7 @@ class FFmpegTranscoder:
             RuntimeError: If FFmpeg conversion fails
         """
         # Validate conversion is possible
-        if not self.can_transcode():
+        if not self.__can_convert():
             raise ValueError(
                 f"Cannot convert {self.input_type} to {self.output_type}. "
                 f"Audio-only formats cannot be converted to video formats."
@@ -109,7 +103,6 @@ class FFmpegTranscoder:
         
         # Execute FFmpeg command
         try:
-            print(f"Converting {self.input_file} to {output_file}...")
             result = subprocess.run(
                 cmd,
                 stdout=subprocess.PIPE,
@@ -117,7 +110,6 @@ class FFmpegTranscoder:
                 text=True,
                 check=True
             )
-            print(f"Conversion successful: {output_file}")
             return output_file
             
         except subprocess.CalledProcessError as e:

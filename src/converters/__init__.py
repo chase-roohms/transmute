@@ -1,3 +1,3 @@
-from .ffmpeg_transcode import FFmpegTranscoder
+from .ffmpeg_transcode import FFmpegConverter
 
-__all__ = ["FFmpegTranscoder"]
+__all__ = ["FFmpegConverter"]
