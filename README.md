@@ -1,43 +1,13 @@
 <!-- Repository Name--->
-# python-template
+# Transmute
 
-<!-- Short Repository Description--->
-Generic template for my python projects in an effort to maintain common structure &amp; practices
+Self-Hosted file converter (WIP!)
 
-<!-- Here is where you put generic information --->
-This can be used when creating a repository by selecting it next to "Start with a template".
+Currently supported file conversions:
+- Image to Image (png -> jpg, jpg -> webp, etc.)
+- Video to Video (mkv -> mp4, mov -> mkv, etc.)
+- Video to Audio (mkv -> mp3, mov -> wav, etc.)
+- Audio to Audio (mp3 -> wav, flac -> aac, etc.)
 
-For more info on templates, refer to the [docs](./docs/)
-
-## Testing
-
-This template includes a pytest test setup for easy testing of your Python code.
-
-### Installation
-
-Install test dependencies:
-```bash
-pip install -r requirements-dev.txt
-```
-
-### Running Tests
-
-Run all tests:
-```bash
-pytest
-```
-
-Run with coverage report:
-```bash
-pytest --cov=src --cov-report=html
-```
-
-Run specific test file:
-```bash
-pytest tests/test_some_module.py
-```
-
-Run with verbose output:
-```bash
-pytest -v
-```
+## Status
+This project is under heavy development, come back soon to see where it goes!
