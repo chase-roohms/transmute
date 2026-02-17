@@ -55,6 +55,7 @@ coverage.xml
 cover/
 pytest-coverage.txt
 junit.xml
+output-files/
 
 # Translations
 *.mo
