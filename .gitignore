@@ -1,5 +1,6 @@
 # App directories
 uploads/
+converted/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
