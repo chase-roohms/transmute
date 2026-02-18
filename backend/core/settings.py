@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     # ===== Storage =====
 
     data_dir: Path = Field(default=Path("data"))
+    web_dir: Path = Field(default=Path("frontend/dist"))
 
     # Derived paths (computed automatically)
     db_path: Path | None = None
