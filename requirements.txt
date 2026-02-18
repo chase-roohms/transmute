@@ -5,3 +5,4 @@ pyyaml==6.0.3
 openpyxl==3.1.5
 fastapi==0.129.0
 python-multipart==0.0.22
+python-magic==0.4.27
