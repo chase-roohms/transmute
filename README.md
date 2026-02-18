@@ -7,6 +7,10 @@
   Transmute
 </h1>
 
+> [!WARNING]  
+> I quite literally *just* launched this project, and it will be under active development for some time - however I would love for you to come along and enjoy the ride! Leave a star
+> - Chase
+
 Self-Hosted file converter (WIP!)
 
 Currently supported file conversions:
