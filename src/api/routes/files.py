@@ -8,9 +8,9 @@ import uuid
 router = APIRouter(prefix="/files", tags=["files"])
 
 # Define upload directory
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
-CONVERTED_DIR = Path("converted")
+UPLOAD_DIR = Path("data/uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+CONVERTED_DIR = Path("data/converted")
 
 
 @router.get("/")

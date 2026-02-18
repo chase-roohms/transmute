@@ -1,10 +1,13 @@
 import json
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Path, Request
 from converters import ConverterInterface
 from registry import ConverterRegistry
 
 router = APIRouter(prefix="/conversions", tags=["conversions"])
 regisitry = ConverterRegistry()
+UPLOAD_DIR = Path("data/uploads")
+CONVERTED_DIR = Path("data/converted")
+CONVERTED_DIR.mkdir(parents=True, exist_ok=True)
 
 @router.get("/")
 def list_conversions():
@@ -21,6 +24,6 @@ async def create_conversion(request: Request):
     if converter_type is None:
         return {"error": f"No converter found for {input_format} to {output_format}"}
     
-    converter: ConverterInterface = converter_type(f'uploads/{id}.{input_format}', f'converted/', input_format, output_format)
+    converter: ConverterInterface = converter_type(f'{UPLOAD_DIR}/{id}.{input_format}', f'{CONVERTED_DIR}/', input_format, output_format)
     print(converter.convert())
     return {"message": "Conversion created"}
