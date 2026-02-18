@@ -2,7 +2,7 @@
   <picture height=25px>
     <source media="(prefers-color-scheme: dark)" srcset="images/beaker-white.svg" height=25px/>
     <source media="(prefers-color-scheme: light)" srcset="images/beaker-black.svg" height=25px/>
-    <img alt="Star History Chart" src="images/beaker-white.svg" />
+    <img alt="Transmute logo, a small flask" src="images/beaker-white.svg" />
   </picture>
   Transmute
 </h1>
