@@ -63,5 +63,5 @@ curl -X POST http://0.0.0.0:3313/conversions/ \
 4. Wait for the job to finish (will use the jobs endpoint? maybe some websocket here would be best instead of polling)
 5. Download the converted file once finished
 ```bash
-curl -v -X GET http://0.0.0.0:3313/files/4a86e7d8-b936-465b-a79d-9c076306d17a -o downloaded_file.png
+curl -X GET http://0.0.0.0:3313/files/4a86e7d8-b936-465b-a79d-9c076306d17a -o downloaded_file.png
 ```
