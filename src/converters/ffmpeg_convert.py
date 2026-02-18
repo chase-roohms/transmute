@@ -69,6 +69,23 @@ class FFmpegConverter(ConverterInterface):
         # - Audio to Audio (convert)
         return True
     
+    @classmethod
+    def get_formats_compatible_with(cls, format_type: str) -> set:
+        """
+        Get the set of compatible formats for conversion.
+        
+        Args:
+            format_type: The input format to check compatibility for.
+        
+        Returns:
+            Set of compatible formats.
+        """
+        if format_type.lower() in cls.audio_formats:
+            # For audio formats, compatible formats are other audio formats
+            return cls.audio_formats - {format_type.lower()}
+        else:
+            return cls.supported_formats - {format_type.lower()}
+    
     def convert(self, overwrite: bool = True, quality: Optional[str] = None) -> str:
         """
         Convert the input file to the output format using FFmpeg.
