@@ -1,20 +1,21 @@
 from fastapi import APIRouter, HTTPException
+from core import get_settings
 import sqlite3
 import os
 
-router = APIRouter()
+router = APIRouter(prefix="/health", tags=["health"])
+
+settings = get_settings()
+DB_PATH = settings.db_path
+UPLOAD_DIR = settings.upload_dir
 
 
-DB_PATH = "data/db/app.sqlite"
-UPLOAD_DIR = "data/uploads"
-
-
-@router.get("/health/live")
+@router.get("/live")
 def liveness():
     """Simple liveness check to confirm the server is running"""
     return {"status": "alive"}
 
-@router.get("/health/ready")
+@router.get("/ready")
 def readiness():
     """Readiness check to confirm the server is ready to handle requests"""
     checks = {}
