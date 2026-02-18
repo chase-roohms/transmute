@@ -13,28 +13,20 @@
 
 Self-Hosted file converter (WIP!)
 
-Replaces:
+## What Does Transmute Replace?
 - https://www.freeconvert.com/
 - https://cloudconvert.com/
 - https://convertio.co/
 - https://file-converter.org/
 
-What does Transmute do better?
-- Full data control, your files only touch your hardware, no third parties snooping around
-- Unlimited access, for free
-  - No paid API
-  - No filesize limits
-  - No conversion count limits
-
-Currently supported file conversions:
-- Image to Image (png -> jpg, jpg -> webp, etc.)
-- Video to Video (mkv -> mp4, mov -> mkv, etc.)
-- Video to Audio (mkv -> mp3, mov -> wav, etc.)
-- Audio to Audio (mp3 -> wav, flac -> aac, etc.)
 
 ## Status
 This project is under heavy development, come back soon to see where it goes!
 
+## Diagrams
+Shoutout to draw.io (formerly diagrams.net) I love their software and have always planned out projects using it. Recently I discovered [@hediet](https://github.com/hediet) has a [draw.io vscode extension](https://github.com/hediet/vscode-drawio) so now we have our diagrams stored in git at [docs/diagrams/source](docs/diagrams/source). 
+
+They are also exported to [docs/diagrams/exports](docs/diagrams/source) for easy viewing from the UI.
 
 ## API Call Flow
 *Just drafting as of now, will likely change I can already see some issues with it*
