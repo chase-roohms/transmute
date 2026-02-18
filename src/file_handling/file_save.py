@@ -5,9 +5,6 @@ from core import get_settings
 import os, uuid, hashlib, mimetypes
 import magic
 
-mimetypes.add_type("application/yaml", ".yaml")
-mimetypes.add_type("application/yaml", ".yml")
-
 class FileSave:
     STORAGE_DIR = get_settings().upload_dir
     CHUNK_SIZE = 1024 * 1024  # 1MB
@@ -22,12 +19,8 @@ class FileSave:
         os.makedirs(self.STORAGE_DIR, exist_ok=True)
 
     def __detect_media_type(self, file_path: Path) -> str:
-        media_type, _ = mimetypes.guess_type(self.original_filename)
-        if media_type in (None, "application/octet-stream"):
-            try:
-                media_type = magic.from_file(str(file_path), mime=True) or "application/octet-stream"
-            except Exception:
-                media_type = "application/octet-stream"
+        # Use extensions as the media_type
+        media_type = file_path.suffix.lower().lstrip('.')
         return media_type
 
     async def save_file(self) -> dict:
