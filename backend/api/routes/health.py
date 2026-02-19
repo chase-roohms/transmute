@@ -10,6 +10,15 @@ DB_PATH = settings.db_path
 UPLOAD_DIR = settings.upload_dir
 
 
+@router.get("/info")
+def app_info():
+    """Return application metadata"""
+    return {
+        "name": settings.app_name,
+        "version": settings.app_version,
+    }
+
+
 @router.get("/live")
 def liveness():
     """Simple liveness check to confirm the server is running"""
