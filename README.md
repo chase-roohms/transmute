@@ -11,9 +11,10 @@ The self-hosted file converter that lets you convert anything, anywhere.
 
 This application is under active development, want to support us? Give us a star or jump in and contribute!
 
-<div align="center">
+<figure align="center">
   <img src="assets/demos/demo.gif" alt="GIF showind the Transmute workflow" width=75%>
-</div>
+  <figcaption>Fun fact, this gif was created by converting a screen recording using Transmute!</figcaption>
+</figure>
 
 ## What Does Transmute Replace?
 *For the record, I love all of these services and use them all frequently. Transmute is not up to par with any of them yet. But it will be!*
