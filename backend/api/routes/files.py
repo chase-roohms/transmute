@@ -7,11 +7,13 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 from core import get_settings, detect_media_type
 from db.file_db import FileDB
+from registry import ConverterRegistry
 
 router = APIRouter(prefix="/files", tags=["files"])
 
 # Define upload directory
 settings = get_settings()
+converter_registry = ConverterRegistry()
 UPLOAD_DIR = settings.upload_dir
 CONVERTED_DIR = settings.output_dir
 
@@ -48,6 +50,7 @@ async def save_file(file: UploadFile) -> dict:
         "sha256_checksum": hasher.hexdigest(),
     }
     db.insert_file_metadata(metadata)
+    metadata["compatible_formats"] = converter_registry.get_compatible_formats(media_type)
     return metadata
 
 @router.get("/")
