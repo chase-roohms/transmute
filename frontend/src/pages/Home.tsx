@@ -127,9 +127,6 @@ function Home() {
         <div className="space-y-4">
           {!uploadResult || conversionResult ? (
             <div>
-              <label className="block text-sm font-medium text-text mb-2">
-                {uploading ? 'Uploading...' : 'Select a file...'}
-              </label>
               <input
                 type="file"
                 onChange={handleFileSelect}
