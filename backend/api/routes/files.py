@@ -8,7 +8,7 @@ from pathlib import Path
 from core import get_settings, detect_media_type
 from db import FileDB, ConversionDB, ConversionRelationsDB
 from registry import ConverterRegistry
-from ..deps import get_file_db, get_conversion_db, get_conversion_relations_db
+from api.deps import get_file_db, get_conversion_db, get_conversion_relations_db
 
 router = APIRouter(prefix="/files", tags=["files"])
 

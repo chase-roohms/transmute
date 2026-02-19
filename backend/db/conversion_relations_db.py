@@ -7,7 +7,7 @@ class ConversionRelationsDB:
     TABLE_NAME = settings.conversion_relations_table_name
 
     def __init__(self):
-        self.conn = sqlite3.connect(self.DB_PATH)
+        self.conn = sqlite3.connect(self.DB_PATH, check_same_thread=False)
         self.create_tables()
     
     def create_tables(self):
