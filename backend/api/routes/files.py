@@ -2,12 +2,13 @@ import os
 import uuid
 import hashlib
 
-from fastapi import APIRouter, File, UploadFile, HTTPException, Request
+from fastapi import APIRouter, File, UploadFile, HTTPException, Request, Depends
 from fastapi.responses import FileResponse
 from pathlib import Path
 from core import get_settings, detect_media_type
 from db import FileDB, ConversionDB, ConversionRelationsDB
 from registry import ConverterRegistry
+from ..deps import get_file_db, get_conversion_db, get_conversion_relations_db
 
 router = APIRouter(prefix="/files", tags=["files"])
 
@@ -17,8 +18,7 @@ converter_registry = ConverterRegistry()
 UPLOAD_DIR = settings.upload_dir
 CONVERTED_DIR = settings.output_dir
 
-async def save_file(file: UploadFile) -> dict:
-    db = FileDB()
+async def save_file(file: UploadFile, db: FileDB) -> dict:
     uuid_str = str(uuid.uuid4())
     original_filename = file.filename or "upload"
     file_extension = Path(original_filename).suffix.lower()
@@ -54,18 +54,20 @@ async def save_file(file: UploadFile) -> dict:
     return metadata
 
 @router.get("/")
-def list_files():
-    file_db = FileDB()
+def list_files(file_db: FileDB = Depends(get_file_db)):
     """List all uploaded files"""
     files = file_db.list_files()
     return {"files": files}
 
 
 @router.post("/")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(
+    file: UploadFile = File(...),
+    file_db: FileDB = Depends(get_file_db)
+):
     """Upload a file and save it to the server"""
     try:
-        metadata = await save_file(file)
+        metadata = await save_file(file, file_db)
         return {"message": "File uploaded successfully", "metadata": metadata}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
@@ -87,12 +89,14 @@ def get_file(file_id: str):
 
 
 @router.delete("/{file_id}")
-def delete_file(file_id: str):
+def delete_file(
+    file_id: str,
+    file_db: FileDB = Depends(get_file_db),
+    converted_file_db: ConversionDB = Depends(get_conversion_db),
+    conversion_rel_db: ConversionRelationsDB = Depends(get_conversion_relations_db)
+):
     """Delete an uploaded file"""
     # Find file with matching ID
-    file_db = FileDB()
-    converted_file_db = ConversionDB()
-    conversion_rel_db = ConversionRelationsDB()
     converted_file_id = conversion_rel_db.get_conversion_from_file(file_id)
     file_metadata = file_db.get_file_metadata(file_id)
     if file_metadata is None:

@@ -2,11 +2,12 @@ import json
 from pathlib import Path
 import uuid
 import hashlib
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from converters import ConverterInterface
 from registry import ConverterRegistry
 from core import get_settings
 from db import ConversionDB, FileDB, ConversionRelationsDB
+from ..deps import get_file_db, get_conversion_db, get_conversion_relations_db
 
 
 router = APIRouter(prefix="/conversions", tags=["conversions"])
@@ -17,10 +18,11 @@ TEMP_DIR = settings.tmp_dir
 CONVERTED_DIR = settings.output_dir
 
 @router.get("/complete")
-def list_conversions():
-    conv_db = ConversionDB()
-    file_db = FileDB()
-    conv_rel_db = ConversionRelationsDB()
+def list_conversions(
+    file_db: FileDB = Depends(get_file_db),
+    conv_db: ConversionDB = Depends(get_conversion_db),
+    conv_rel_db: ConversionRelationsDB = Depends(get_conversion_relations_db)
+):
     converted_files = conv_db.list_files()
     og_files = file_db.list_files()
     converted_files_dict = {f['id']: f for f in converted_files}
@@ -33,11 +35,13 @@ def list_conversions():
     return {"conversions": list(og_files_dict.values())}
 
 @router.post("/")
-async def create_conversion(request: Request):
+async def create_conversion(
+    request: Request,
+    file_db: FileDB = Depends(get_file_db),
+    conversion_db: ConversionDB = Depends(get_conversion_db),
+    conversion_relations_db: ConversionRelationsDB = Depends(get_conversion_relations_db)
+):
     body = await request.json()
-    file_db = FileDB()
-    conversion_db = ConversionDB()
-    conversion_relations_db = ConversionRelationsDB()
 
     og_id = body.get("id")
     output_format = body.get("output_format")

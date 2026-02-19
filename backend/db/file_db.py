@@ -71,3 +71,8 @@ class FileDB:
     def delete_file_metadata(self, file_id: str):
         with self.conn:
             self.conn.execute(f"DELETE FROM {self.TABLE_NAME} WHERE id = ?", (file_id,))
+    
+    def close(self):
+        """Close the database connection"""
+        if self.conn:
+            self.conn.close()
