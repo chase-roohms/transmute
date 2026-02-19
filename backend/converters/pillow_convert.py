@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from typing import Optional
 from PIL import Image
+from pillow_heif import HeifImagePlugin
 from .converter_interface import ConverterInterface
 
 class PillowConverter(ConverterInterface):
@@ -17,7 +18,9 @@ class PillowConverter(ConverterInterface):
         'ppm', 
         'pgm', 
         'pbm', 
-        'pcx'
+        'pcx',
+        'heif',
+        'heic'
     }
     def __init__(self, input_file: str, output_dir: str, input_type: str, output_type: str):
         """
@@ -30,6 +33,7 @@ class PillowConverter(ConverterInterface):
             output_type: Output file format (e.g., 'jpg', 'png', 'bmp')
         """
         super().__init__(input_file, output_dir, input_type, output_type)
+        HeifImagePlugin.register_heif_opener()
     
     def __can_convert(self) -> bool:
         """
