@@ -5,7 +5,7 @@ from typing import Optional
 from .converter_interface import ConverterInterface
 
 class PandasConverter(ConverterInterface):
-    supported_formats: set = {'csv', 'xlsx', 'json', 'parquet', 'yaml', 'yml'}
+    supported_formats: set = {'csv', 'xlsx', 'json', 'parquet', 'yaml'}
 
     def __init__(self, input_file: str, output_dir: str, input_type: str, output_type: str):
         """
@@ -58,15 +58,15 @@ class PandasConverter(ConverterInterface):
             raise FileExistsError(f"Output file {output_file} already exists and overwrite is set to False.")
         
         # Handle YAML <-> JSON conversions directly (preserve nested structure)
-        if self.input_type in ['yaml', 'yml', 'json'] and self.output_type in ['yaml', 'yml', 'json']:
-            if self.input_type in ['yaml', 'yml']:
+        if self.input_type in ['yaml', 'json'] and self.output_type in ['yaml', 'json']:
+            if self.input_type == 'yaml':
                 with open(self.input_file, 'r') as f:
                     data = yaml.safe_load(f)
             else:  # json
                 with open(self.input_file, 'r') as f:
                     data = json.load(f)
             
-            if self.output_type in ['yaml', 'yml']:
+            if self.output_type == 'yaml':
                 with open(output_file, 'w') as f:
                     yaml.dump(data, f, default_flow_style=False, sort_keys=False)
             else:  # json
@@ -85,7 +85,7 @@ class PandasConverter(ConverterInterface):
             df = pd.read_json(self.input_file)
         elif self.input_type == 'parquet':
             df = pd.read_parquet(self.input_file)
-        elif self.input_type in ['yaml', 'yml']:
+        elif self.input_type == 'yaml':
             with open(self.input_file, 'r') as f:
                 data = yaml.safe_load(f)
             # Try to convert to DataFrame - if it's a list of dicts, it works directly
@@ -104,7 +104,7 @@ class PandasConverter(ConverterInterface):
             df.to_json(output_file, orient='records', indent=2)
         elif self.output_type == 'parquet':
             df.to_parquet(output_file, index=False)
-        elif self.output_type in ['yaml', 'yml']:
+        elif self.output_type == 'yaml':
             with open(output_file, 'w') as f:
                 yaml.dump(df.to_dict(orient='records'), f, default_flow_style=False)
         

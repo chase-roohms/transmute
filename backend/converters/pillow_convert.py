@@ -6,7 +6,6 @@ from .converter_interface import ConverterInterface
 
 class PillowConverter(ConverterInterface):
     supported_formats = {
-        'jpg', 
         'jpeg', 
         'png',
         'gif', 

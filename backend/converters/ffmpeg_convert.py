@@ -19,15 +19,14 @@ class FFmpegConverter(ConverterInterface):
         'gif'
       }
     audio_formats: set = {
-        'mp3', 
-        'wav', 
-        'aac', 
-        'flac', 
-        'ogg', 
-        'wma', 
-        'm4a', 
-        'opus', 
-        'alac'
+        'mp3',
+        'wav',
+        'aac',
+        'flac',
+        'ogg',
+        'wma',
+        'm4a',
+        'opus'
       }
     supported_formats: set = video_formats | audio_formats
 
