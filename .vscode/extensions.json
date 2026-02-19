@@ -1,5 +1,6 @@
 {
   "recommendations": [
-    "hediet.vscode-drawio"
+    "hediet.vscode-drawio",
+    "yy0931.vscode-sqlite3-editor"
   ]
 }
