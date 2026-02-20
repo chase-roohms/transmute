@@ -13,7 +13,7 @@ This application is under active development, want to support us? Give us a star
 
 <!-- PRE_GIF_MARKER -->
 <div align="center">
-  <img src="assets/demos/demo.gif" alt="GIF showind the Transmute workflow" width=75%>
+  <img src="https://raw.githubusercontent.com/transmute-app/transmute/refs/heads/main/assets/demos/demo.gif" alt="GIF showind the Transmute workflow" width=75%>
   <p><i>Fun fact, this gif was created by converting a screen recording using Transmute!</i></p>
 </div>
 <!-- POST_GIF_MARKER -->

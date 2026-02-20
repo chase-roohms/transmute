@@ -18,13 +18,13 @@ jobs:
         with:
           persist-credentials: false
       
-      - name: Remove Unsupported Sections from README
-        run: |
-          awk '
-            /<!-- PRE_GIF_MARKER -->/ { skip=1; next }
-            /<!-- POST_GIF_MARKER -->/ { skip=0; next }
-            !skip { print }
-          ' README.md > README.docker.md
+      #- name: Remove Unsupported Sections from README
+      #  run: |
+      #    awk '
+      #      /<!-- PRE_GIF_MARKER -->/ { skip=1; next }
+      #      /<!-- POST_GIF_MARKER -->/ { skip=0; next }
+      #      !skip { print }
+      #    ' README.md > README.docker.md
       
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa  # v5.0.0
