@@ -47,7 +47,6 @@ async def create_conversion(
     output_format = sanitize_extension(body.get("output_format"))
     og_metadata = file_db.get_file_metadata(og_id)
     input_format = og_metadata['media_type']
-    print(og_metadata)
     converted_id = str(uuid.uuid4())
     converted_metadata = dict(og_metadata)
 
