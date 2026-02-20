@@ -6,12 +6,10 @@ on:
       - main
     tags:
       - 'v*.*.*'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Docker image tag to publish'
-        required: false
-        default: 'latest'
+
+env:
+  DOCKER_HUB_NAMESPACE: neonvariant
+  DOCKER_HUB_REPOSITORY: transmute
 
 jobs:
   security-scan:
@@ -46,7 +44,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ github.repository }}
+            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_HUB_REPOSITORY }}
             ghcr.io/${{ github.repository }}
           tags: |
             type=ref,event=branch
