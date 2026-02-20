@@ -15,7 +15,6 @@ jobs:
   security-scan:
     name: Security Scan
     uses: ./.github/workflows/docker-scan.yml
-    secrets: inherit
     permissions:
       contents: read
       security-events: write
@@ -42,7 +41,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051  # v5.10.0
         with:
           images: |
             ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_HUB_REPOSITORY }}
