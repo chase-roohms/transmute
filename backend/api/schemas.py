@@ -51,3 +51,16 @@ class ReadinessChecks(BaseModel):
 class ReadinessResponse(BaseModel):
     status: str = Field(..., example="ready", description="Overall readiness status")
     checks: ReadinessChecks = Field(..., description="Individual component checks")
+
+
+class FileListResponse(BaseModel):
+    files: list[FileMetadata] = Field(..., description="List of uploaded files")
+
+
+class FileUploadResponse(BaseModel):
+    message: str = Field(..., example="File uploaded successfully", description="Upload status message")
+    metadata: FileMetadata = Field(..., description="Uploaded file metadata")
+
+
+class FileDeleteResponse(BaseModel):
+    message: str = Field(..., example="File deleted successfully", description="Deletion status message")

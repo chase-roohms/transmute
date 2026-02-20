@@ -2,13 +2,14 @@ import os
 import uuid
 import hashlib
 
-from fastapi import APIRouter, File, UploadFile, HTTPException, Request, Depends
+from fastapi import APIRouter, File, UploadFile, HTTPException, Depends
 from fastapi.responses import FileResponse
 from pathlib import Path
 from core import get_settings, detect_media_type, sanitize_extension
 from db import FileDB, ConversionDB, ConversionRelationsDB
 from registry import ConverterRegistry
 from api.deps import get_file_db, get_conversion_db, get_conversion_relations_db
+from api.schemas import FileListResponse, FileUploadResponse, FileDeleteResponse, ErrorResponse
 
 router = APIRouter(prefix="/files", tags=["files"])
 
@@ -65,14 +66,36 @@ def delete_file_and_metadata(file_id: str, file_db: FileDB):
     file_db.delete_file_metadata(file_id)
 
 
-@router.get("/")
+@router.get(
+    "/",
+    summary="List all uploaded files",
+    responses={
+        200: {
+            "model": FileListResponse,
+            "description": "List of all uploaded files"
+        }
+    }
+)
 def list_files(file_db: FileDB = Depends(get_file_db)):
     """List all uploaded files"""
     files = file_db.list_files()
     return {"files": files}
 
 
-@router.post("/")
+@router.post(
+    "/",
+    summary="Upload a file",
+    responses={
+        200: {
+            "model": FileUploadResponse,
+            "description": "File uploaded successfully"
+        },
+        500: {
+            "model": ErrorResponse,
+            "description": "Upload failed"
+        }
+    }
+)
 async def upload_file(
     file: UploadFile = File(...),
     file_db: FileDB = Depends(get_file_db)
@@ -86,7 +109,21 @@ async def upload_file(
     finally:
         await file.close()
 
-@router.get("/{file_id}")
+@router.get(
+    "/{file_id}",
+    summary="Download a converted file",
+    response_class=FileResponse,
+    responses={
+        200: {
+            "content": {"application/octet-stream": {}},
+            "description": "File content as binary"
+        },
+        404: {
+            "model": ErrorResponse,
+            "description": "File not found"
+        }
+    }
+)
 def get_file(file_id: str):
     """Download a converted file"""
     # Find file with matching ID
@@ -100,7 +137,20 @@ def get_file(file_id: str):
     raise HTTPException(status_code=404, detail="File not found")
 
 
-@router.delete("/{file_id}")
+@router.delete(
+    "/{file_id}",
+    summary="Delete an uploaded file",
+    responses={
+        200: {
+            "model": FileDeleteResponse,
+            "description": "File deleted successfully"
+        },
+        404: {
+            "model": ErrorResponse,
+            "description": "File not found"
+        }
+    }
+)
 def delete_file(
     file_id: str,
     file_db: FileDB = Depends(get_file_db),
