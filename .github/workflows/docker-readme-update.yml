@@ -6,6 +6,7 @@ on:
       - main
     paths: 
       - README.md
+      - .github/workflows/docker-readme-update.yml
 
 jobs:
   docker-readme:
