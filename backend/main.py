@@ -6,9 +6,16 @@ from core import get_settings
 import uvicorn
 
 def create_app() -> FastAPI:
-    app = FastAPI()
+    settings = get_settings()
+    app = FastAPI(
+        title=f"{settings.app_name} API",
+        description=f"API to interact with {settings.app_name} without the need for a frontend",
+        version=f"{settings.app_version}",
+        docs_url="/api/docs",
+        redoc_url="/api/redoc"
+    )
     app.include_router(router, prefix="/api")
-    web_dir = get_settings().web_dir
+    web_dir = settings.web_dir
     if web_dir.exists():
         app.mount("/assets", StaticFiles(directory=web_dir / "assets"), name="assets")
         if (web_dir / "icons").exists():
