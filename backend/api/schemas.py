@@ -32,3 +32,22 @@ class ConversionListResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     detail: str = Field(..., example="No converter found for jpg to png", description="Error message")
+
+
+class AppInfo(BaseModel):
+    name: str = Field(..., example="Transmute", description="Application name")
+    version: str = Field(..., example="v1.0.0", description="Application version")
+
+
+class HealthStatus(BaseModel):
+    status: str = Field(..., example="alive", description="Health status")
+
+
+class ReadinessChecks(BaseModel):
+    database: str = Field(..., example="ok", description="Database check status")
+    storage: str = Field(..., example="ok", description="Storage check status")
+
+
+class ReadinessResponse(BaseModel):
+    status: str = Field(..., example="ready", description="Overall readiness status")
+    checks: ReadinessChecks = Field(..., description="Individual component checks")

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from core import get_settings
+from api.schemas import AppInfo, HealthStatus, ReadinessResponse
 import sqlite3
 import os
 
@@ -12,18 +13,11 @@ UPLOAD_DIR = settings.upload_dir
 
 @router.get(
         "/info", 
-        summary="Get application metadata", 
+        summary="Get application metadata",
         responses={
             200: {
-                "description": "Application metadata",
-                "content": {
-                    "application/json": {
-                        "example": {
-                            "name": "Transmute",
-                            "version": "v1.0.0"
-                        }
-                    }
-                }
+                "model": AppInfo,
+                "description": "Application metadata"
             }
         }
 )
@@ -37,17 +31,11 @@ def app_info():
 
 @router.get(
         "/live", 
-        summary="Liveness check", 
+        summary="Liveness check",
         responses={
             200: {
-                "description": "Liveness status",
-                "content": {
-                    "application/json": {
-                        "example": {
-                            "status": "alive"
-                        }
-                    }
-                }
+                "model": HealthStatus,
+                "description": "Liveness status"
             }
         }
 )
@@ -58,35 +46,15 @@ def liveness():
 
 @router.get(
         "/ready", 
-        summary="Readiness check", 
+        summary="Readiness check",
         responses={
             200: {
-                "description": "Readiness status",
-                "content": {
-                    "application/json": {
-                        "example": {
-                            "status": "ready",
-                            "checks": {
-                                "database": "ok",
-                                "storage": "ok"
-                            }
-                        }
-                    }
-                }
+                "model": ReadinessResponse,
+                "description": "Ready - all checks passed"
             },
             503: {
-                "description": "Not ready with details on failed checks",
-                "content": {
-                    "application/json": {
-                        "example": {
-                            "status": "not_ready",
-                            "checks": {
-                                "database": "error: unable to connect",
-                                "storage": "ok"
-                            }
-                        }
-                    }
-                }
+                "model": ReadinessResponse,
+                "description": "Not ready - one or more checks failed"
             }
         }
 )
