@@ -18,7 +18,9 @@ converter_registry = ConverterRegistry()
 UPLOAD_DIR = settings.upload_dir
 CONVERTED_DIR = settings.output_dir
 
+
 async def save_file(file: UploadFile, db: FileDB) -> dict:
+    """Save an uploaded file to disk and store its metadata in the database."""
     uuid_str = str(uuid.uuid4())
     original_filename = file.filename or "upload"
     file_extension = sanitize_extension(Path(original_filename).suffix.lower())
@@ -52,6 +54,16 @@ async def save_file(file: UploadFile, db: FileDB) -> dict:
     db.insert_file_metadata(metadata)
     metadata["compatible_formats"] = converter_registry.get_compatible_formats(media_type)
     return metadata
+
+
+def delete_file_and_metadata(file_id: str, file_db: FileDB):
+    """Helper function to delete a file and its metadata from a file database."""
+    metadata = file_db.get_file_metadata(file_id)
+    if metadata is None:
+        raise HTTPException(status_code=404, detail="File not found")
+    os.unlink(metadata['storage_path'])
+    file_db.delete_file_metadata(file_id)
+
 
 @router.get("/")
 def list_files(file_db: FileDB = Depends(get_file_db)):
@@ -96,16 +108,9 @@ def delete_file(
     conversion_rel_db: ConversionRelationsDB = Depends(get_conversion_relations_db)
 ):
     """Delete an uploaded file"""
-    # Find file with matching ID
+    # Find converted file ID related to this original file ID, if it exists
     converted_file_id = conversion_rel_db.get_conversion_from_file(file_id)
-    file_metadata = file_db.get_file_metadata(file_id)
-    if file_metadata is None:
-        raise HTTPException(status_code=404, detail="File not found")
-    os.unlink(file_metadata['storage_path'])
-    if converted_file_id:
-        converted_file_metadata = converted_file_db.get_file_metadata(converted_file_id)
-        os.unlink(converted_file_metadata['storage_path'])
-        converted_file_db.delete_file_metadata(converted_file_id)
-        conversion_rel_db.delete_relation_by_original(file_id)
-    file_db.delete_file_metadata(file_id)
+    delete_file_and_metadata(file_id, file_db)
+    delete_file_and_metadata(converted_file_id, converted_file_db)
+    conversion_rel_db.delete_relation_by_original(file_id)
     return {"message": "File deleted successfully"}
