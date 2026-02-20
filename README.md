@@ -1,8 +1,8 @@
 <h1>
   <picture height=23px>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/beaker-white.svg" height=23px />
-    <source media="(prefers-color-scheme: light)" srcset="assets/brand/images/beaker-black.svg" height=23px />
-    <img alt="Transmute logo, a small flask" src="assets/brand/images/beaker-white.svg" height=23px />
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/transmute-app/transmute/refs/heads/main/assets/brand/beaker-white.svg" height=23px />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/transmute-app/transmute/refs/heads/main/assets/brand/beaker-black.svg" height=23px />
+    <img alt="Transmute logo, a small flask" src="https://raw.githubusercontent.com/transmute-app/transmute/refs/heads/main/assets/brand/beaker-white.svg" height=23px />
   </picture>
   Transmute
 </h1>
@@ -11,10 +11,12 @@ The self-hosted file converter that lets you convert anything, anywhere.
 
 This application is under active development, want to support us? Give us a star or jump in and contribute!
 
+<!-- PRE_GIF_MARKER -->
 <div align="center">
   <img src="assets/demos/demo.gif" alt="GIF showind the Transmute workflow" width=75%>
   <p><i>Fun fact, this gif was created by converting a screen recording using Transmute!</i></p>
 </div>
+<!-- POST_GIF_MARKER -->
 
 ## What Does Transmute Replace?
 *For the record, I love all of these services and use them all frequently. Transmute is not up to par with any of them yet. But it will be!*
@@ -31,9 +33,9 @@ This project is under heavy development, come back soon to see where it goes!
 ## Diagrams
 Shoutout to [draw.io](https://www.drawio.com/) - formerly diagrams.net. I love their software and have always planned out projects using it. 
 
-Recently I discovered [@hediet](https://github.com/hediet) has a [draw.io vscode extension](https://github.com/hediet/vscode-drawio) so now we have our diagrams stored in git at [docs/diagrams/source](docs/diagrams/source). 
+Recently I discovered [@hediet](https://github.com/hediet) has a [draw.io vscode extension](https://github.com/hediet/vscode-drawio) so now we have our diagrams stored in git at [docs/diagrams/source](https://github.com/transmute-app/transmute/tree/main/docs/diagrams/source). 
 
-They are also exported to [docs/diagrams/exports](docs/diagrams/source) for easy viewing from the UI.
+They are also exported to [docs/diagrams/exports](https://github.com/transmute-app/transmute/tree/main/docs/diagrams/exports) for easy viewing from the UI.
 
 ## API Call Flow
 
