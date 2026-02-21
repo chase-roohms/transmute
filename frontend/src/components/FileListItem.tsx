@@ -44,18 +44,17 @@ function FileListItem({
     ? [...file.compatible_formats].sort()
     : []
 
-  // Get output filename
-  const getOutputFilename = () => {
+  // Get filename - show original for pending, converted name for completed
+  const getDisplayFilename = () => {
     const name = file.original_filename || 'download'
+    // For pending files, show the original filename
+    if (isPending || !conversion) {
+      return name
+    }
+    // For completed conversions, show the new filename with converted extension
     const dot = name.lastIndexOf('.')
     const base = dot > 0 ? name.substring(0, dot) : name
-    if (conversion) {
-      return base + (conversion.extension || '')
-    }
-    if (selectedFormat) {
-      return base + '.' + selectedFormat
-    }
-    return name
+    return base + (conversion.extension || '')
   }
 
   return (
@@ -88,7 +87,7 @@ function FileListItem({
 
         {/* Filename */}
         <p className="text-sm font-medium text-text truncate">
-          {getOutputFilename()}
+          {getDisplayFilename()}
         </p>
 
         {/* File metadata */}
