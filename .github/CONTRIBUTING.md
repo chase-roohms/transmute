@@ -30,7 +30,17 @@ git clone https://github.com/transmute-app/transmute.git
 cd <repo>
 ```
 
-### 2. Create a Branch
+### 2. Install Python dependencies
+
+`pip3 install requirements.txt`
+
+### 3. Spin up the app locally
+
+`python3 backend/main.py`
+
+Feel free to reach out via issue if you hit any snags here ^
+
+### 4. Create a Branch
 
 ```bash
 git checkout -b feature/my-feature
