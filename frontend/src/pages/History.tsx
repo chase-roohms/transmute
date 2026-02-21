@@ -11,7 +11,7 @@ interface FileRecord {
   conversion?: ConversionInfo
 }
 
-function Files() {
+function History() {
   const [conversions, setConversions] = useState<FileRecord[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -84,7 +84,7 @@ function Files() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-surface-dark to-surface-light p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-primary mb-6">Files</h1>
+        <h1 className="text-3xl font-bold text-primary mb-6">History</h1>
 
         {error && (
           <div className="p-3 bg-primary/20 border border-primary rounded-lg text-primary-light text-sm mb-4">
@@ -131,4 +131,4 @@ function Files() {
   )
 }
 
-export default Files
+export default History
